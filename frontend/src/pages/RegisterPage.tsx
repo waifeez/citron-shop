@@ -1,35 +1,32 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { Box, Button, Container, TextField, Typography, Alert, Link as MuiLink } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { setCredentials } from '../store/slices/authSlice';
 
-export function LoginPage() {
+export function RegisterPage() {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError('Заполни оба поля');
+    if (!fullName || !email || !password) {
+      setError('Заполни все поля');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Пароль должен быть не короче 6 символов');
       return;
     }
 
-    // ВРЕМЕННО: если email admin@citron.md — выдаём роль Admin (совпадает с сидом бэкенда).
-    const isAdmin = email.trim().toLowerCase() === 'admin@citron.md';
-
     dispatch(
       setCredentials({
-        user: {
-          id: '1',
-          fullName: isAdmin ? 'Citron Admin' : 'Тестовый пользователь',
-          email,
-          roles: isAdmin ? ['Admin'] : ['Customer']
-        },
+        user: { id: '1', fullName, email, roles: ['Customer'] },
         token: 'fake-jwt-token'
       })
     );
@@ -39,12 +36,13 @@ export function LoginPage() {
   return (
     <Container maxWidth="xs" sx={{ mt: 8 }}>
       <Typography variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
-        Вход
+        Регистрация
       </Typography>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <TextField label="Имя" value={fullName} onChange={(e) => setFullName(e.target.value)} fullWidth />
         <TextField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth />
         <TextField
           label="Пароль"
@@ -54,18 +52,14 @@ export function LoginPage() {
           fullWidth
         />
         <Button type="submit" variant="contained" size="large">
-          Войти
+          Зарегистрироваться
         </Button>
 
         <Typography variant="body2" sx={{ textAlign: 'center' }}>
-          Нет аккаунта?{' '}
-          <MuiLink component={RouterLink} to="/register">
-            Зарегистрироваться
+          Уже есть аккаунт?{' '}
+          <MuiLink component={RouterLink} to="/login">
+            Войти
           </MuiLink>
-        </Typography>
-
-        <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center' }}>
-          Подсказка: войди как admin@citron.md, чтобы попасть в админку
         </Typography>
       </Box>
     </Container>

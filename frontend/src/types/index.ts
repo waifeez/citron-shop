@@ -37,3 +37,14 @@ export interface User {
   email: string;
   roles: string[];
 }
+
+export interface OrderRecord {
+  id: string;
+  orderNumber: string;
+  createdAt: string;
+  items: { productName: string; unitPrice: number; quantity: number }[];
+  total: number;
+  shippingFullName: string;
+  shippingAddress: string;
+  shippingCity: string;
+}
