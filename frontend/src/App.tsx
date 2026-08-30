@@ -8,6 +8,9 @@ import { ProductPage } from './pages/ProductPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { AdminProductsPage } from './pages/admin/AdminProductsPage';
+import { AdminProductFormPage } from './pages/admin/AdminProductFormPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAppSelector, useAppDispatch } from './store/hooks';
 import { logout } from './store/slices/authSlice';
 
@@ -24,6 +27,8 @@ function App() {
         <Link to="/">Главная</Link>
         <Link to="/catalog">Каталог</Link>
         <Link to="/cart">Корзина ({cartCount})</Link>
+
+        {user?.roles.includes('Admin') && <Link to="/admin/products">Админка</Link>}
 
         {user ? (
           <>
@@ -45,6 +50,12 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+
+        <Route element={<ProtectedRoute requireAdmin />}>
+          <Route path="/admin/products" element={<AdminProductsPage />} />
+          <Route path="/admin/products/new" element={<AdminProductFormPage />} />
+          <Route path="/admin/products/:id" element={<AdminProductFormPage />} />
+        </Route>
       </Routes>
     </div>
   );
