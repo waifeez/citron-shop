@@ -1,0 +1,6 @@
+@CitronShop.WebApi_HostAddress = http://localhost:5150
+
+GET {{CitronShop.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "27QlyBxOVulOvKW1nWDNR/u+2FtORsjHlQ/wR428Nzg=",
+  "Source": "CitronShop.WebApi",
+  "BasePath": "_content/CitronShop.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

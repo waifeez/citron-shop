@@ -1,0 +1,16 @@
+C:\Projects\backend\src\CitronShop.Application\bin\Debug\net8.0\CitronShop.Application.deps.json
+C:\Projects\backend\src\CitronShop.Application\bin\Debug\net8.0\CitronShop.Application.dll
+C:\Projects\backend\src\CitronShop.Application\bin\Debug\net8.0\CitronShop.Application.pdb
+C:\Projects\backend\src\CitronShop.Application\bin\Debug\net8.0\CitronShop.Domain.dll
+C:\Projects\backend\src\CitronShop.Application\bin\Debug\net8.0\CitronShop.Domain.pdb
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.csproj.AssemblyReference.cache
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.AssemblyInfoInputs.cache
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.AssemblyInfo.cs
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.csproj.CoreCompileInputs.cache
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.sourcelink.json
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronSh.76B6385F.Up2Date
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.dll
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\refint\CitronShop.Application.dll
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\CitronShop.Application.pdb
+C:\Projects\backend\src\CitronShop.Application\obj\Debug\net8.0\ref\CitronShop.Application.dll
