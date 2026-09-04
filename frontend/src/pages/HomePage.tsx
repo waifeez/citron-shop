@@ -8,38 +8,30 @@ import { ProductCard } from '../components/ProductCard';
 
 function GiftIllustration() {
   return (
-    <Box
-      sx={{
-        width: '100%',
-        maxWidth: 360,
-        aspectRatio: '1 / 1',
-        mx: 'auto',
-        position: 'relative'
-      }}
-    >
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          borderRadius: '50%',
-          bgcolor: 'primary.main',
-          opacity: 0.08
-        }}
-      />
-      <svg viewBox="0 0 240 240" width="100%" height="100%" style={{ position: 'relative' }}>
-        <rect x="40" y="110" width="160" height="100" rx="10" fill="#1F4D36" />
-        <rect x="40" y="110" width="160" height="30" fill="#153726" />
-        <rect x="108" y="60" width="24" height="150" fill="#E8735A" />
-        <rect x="40" y="130" width="160" height="20" fill="#E8735A" />
+    <Box sx={{ width: '100%', maxWidth: 380, mx: 'auto' }}>
+      <svg viewBox="0 0 260 240" width="100%" height="100%" fill="none">
+        <path d="M20 40 L240 40 L230 75 L30 75 Z" fill="#F5D800" stroke="#153726" strokeWidth="4" strokeLinejoin="round" />
+        <path d="M20 40 L74 40 L69 75 L30 75 Z" fill="#FFFFFF" stroke="#153726" strokeWidth="4" strokeLinejoin="round" />
+        <path d="M128 40 L182 40 L179 75 L131 75 Z" fill="#FFFFFF" stroke="#153726" strokeWidth="4" strokeLinejoin="round" />
+
+        <rect x="35" y="75" width="190" height="115" rx="8" fill="#FFFFFF" stroke="#153726" strokeWidth="4" />
+
+        <rect x="95" y="115" width="70" height="55" rx="4" fill="#F5D800" stroke="#153726" strokeWidth="4" />
+        <rect x="95" y="115" width="70" height="16" fill="#1E7A4C" stroke="#153726" strokeWidth="4" />
+        <rect x="124" y="100" width="12" height="70" fill="#1E7A4C" stroke="#153726" strokeWidth="3" />
+        <path d="M130 100c-14-10-30-6-26 6 3 8 18 6 26-6Z" fill="#1E7A4C" stroke="#153726" strokeWidth="3" />
+        <path d="M130 100c14-10 30-6 26 6-3 8-18 6-26-6Z" fill="#1E7A4C" stroke="#153726" strokeWidth="3" />
+
         <path
-          d="M120 65 C95 40, 60 45, 65 70 C68 88, 100 85, 120 65 Z"
-          fill="#E8735A"
+          d="M188 150 L212 190 L217 172 L235 168 Z"
+          fill="#1E7A4C"
+          stroke="#153726"
+          strokeWidth="4"
+          strokeLinejoin="round"
         />
-        <path
-          d="M120 65 C145 40, 180 45, 175 70 C172 88, 140 85, 120 65 Z"
-          fill="#E8735A"
-        />
-        <circle cx="120" cy="66" r="9" fill="#153726" />
+
+        <rect x="110" y="190" width="40" height="14" fill="#FFFFFF" stroke="#153726" strokeWidth="4" />
+        <rect x="90" y="204" width="80" height="10" rx="4" fill="#F5D800" stroke="#153726" strokeWidth="4" />
       </svg>
     </Box>
   );
@@ -53,7 +45,7 @@ export function HomePage() {
   return (
     <Box>
       <Container sx={{ py: { xs: 6, md: 10 } }}>
-        <Grid container spacing={6} alignItems="center">
+        <Grid container spacing={6} sx={{ alignItems: 'center' }}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Typography variant="h2" sx={{ mb: 2, lineHeight: 1.15 }}>
               Подарки, которые
@@ -80,7 +72,7 @@ export function HomePage() {
       <Container sx={{ pb: { xs: 6, md: 8 } }}>
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, sm: 4 }}>
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
               <CardGiftcardOutlinedIcon color="primary" fontSize="large" />
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Подарочная упаковка</Typography>
@@ -91,7 +83,7 @@ export function HomePage() {
             </Stack>
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }}>
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
               <LocalShippingOutlinedIcon color="primary" fontSize="large" />
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Быстрая доставка</Typography>
@@ -102,7 +94,7 @@ export function HomePage() {
             </Stack>
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }}>
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
               <VerifiedOutlinedIcon color="primary" fontSize="large" />
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Гарантия качества</Typography>

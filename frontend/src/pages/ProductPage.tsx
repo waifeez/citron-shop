@@ -3,6 +3,28 @@ import { Container, Grid, Box, Typography, Button, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addToCart } from '../store/slices/cartSlice';
 
+function ProductHeroArt() {
+  return (
+    <Box
+      sx={{
+        height: 400,
+        borderRadius: 3,
+        bgcolor: '#FBFCF8',
+        border: '2px solid rgba(30,122,76,0.12)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <svg viewBox="0 0 100 100" width="140" height="140" fill="none">
+        <rect x="20" y="42" width="60" height="42" rx="3" fill="#F5D800" stroke="#153726" strokeWidth="3" />
+        <rect x="20" y="42" width="60" height="12" fill="#1E7A4C" stroke="#153726" strokeWidth="3" />
+        <rect x="45" y="34" width="10" height="50" fill="#1E7A4C" stroke="#153726" strokeWidth="2" />
+      </svg>
+    </Box>
+  );
+}
+
 export function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -26,22 +48,11 @@ export function ProductPage() {
     <Container sx={{ py: 4 }}>
       <Grid container spacing={4}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Box
-            sx={{
-              height: 400,
-              bgcolor: 'grey.100',
-              borderRadius: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Typography color="text.disabled">Фото товара</Typography>
-          </Box>
+          <ProductHeroArt />
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          {product.isFeatured && <Chip label="Хит продаж" color="primary" sx={{ mb: 2 }} />}
+          {product.isFeatured && <Chip label="Хит продаж" color="secondary" sx={{ mb: 2 }} />}
 
           <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
             {product.name}
@@ -68,6 +79,7 @@ export function ProductPage() {
 
           <Button
             variant="contained"
+            color="primary"
             size="large"
             disabled={product.stockQuantity === 0}
             onClick={() => dispatch(addToCart(product))}

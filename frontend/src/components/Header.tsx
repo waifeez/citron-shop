@@ -7,21 +7,14 @@ import { logout } from '../store/slices/authSlice';
 
 function Logo() {
   return (
-    <Stack direction="row" spacing={1.2} alignItems="center">
+    <Stack direction="row" spacing={1.2} sx={{ alignItems: 'center' }}>
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        {/* Лимон: овальное тело с двумя лёгкими "носиками" по краям и листиком сверху */}
-        <ellipse cx="16" cy="17" rx="12" ry="9.5" fill="#E8735A" />
-        <path d="M4 17c0-1 1-1.6 2.2-1.2 1 .4 1 2 0 2.4C5 18.6 4 18 4 17Z" fill="#E8735A" />
-        <path d="M28 17c0-1-1-1.6-2.2-1.2-1 .4-1 2 0 2.4 1.2.4 2.2-.2 2.2-1.2Z" fill="#E8735A" />
-        <path
-          d="M17 8c1-3 4-4.5 6.5-3.7-1 2.3-3.6 4-6.5 3.7Z"
-          fill="#1F4D36"
-        />
+        <ellipse cx="16" cy="17" rx="12" ry="9.5" fill="#F5D800" stroke="#153726" strokeWidth="1.6" />
+        <path d="M4 17c0-1 1-1.6 2.2-1.2 1 .4 1 2 0 2.4C5 18.6 4 18 4 17Z" fill="#F5D800" stroke="#153726" strokeWidth="1.2" />
+        <path d="M28 17c0-1-1-1.6-2.2-1.2-1 .4-1 2 0 2.4 1.2.4 2.2-.2 2.2-1.2Z" fill="#F5D800" stroke="#153726" strokeWidth="1.2" />
+        <path d="M17 8c1-3 4-4.5 6.5-3.7-1 2.3-3.6 4-6.5 3.7Z" fill="#1E7A4C" />
       </svg>
-      <Typography
-        variant="h6"
-        sx={{ fontFamily: "'Fraunces', serif", fontWeight: 600, color: '#FFFFFF' }}
-      >
+      <Typography variant="h6" sx={{ fontFamily: "'Fraunces', serif", fontWeight: 600, color: '#FFFFFF' }}>
         Citron
       </Typography>
     </Stack>
@@ -34,11 +27,7 @@ export function Header() {
   const dispatch = useAppDispatch();
 
   return (
-    <AppBar
-      position="sticky"
-      elevation={0}
-      sx={{ bgcolor: 'primary.main' }}
-    >
+    <AppBar position="sticky" elevation={0} sx={{ bgcolor: 'primary.main' }}>
       <Container>
         <Toolbar disableGutters sx={{ gap: 3, py: 0.5 }}>
           <Box component={RouterLink} to="/" sx={{ textDecoration: 'none' }}>
@@ -64,7 +53,7 @@ export function Header() {
             )}
           </Stack>
 
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             {user ? (
               <>
                 <Button

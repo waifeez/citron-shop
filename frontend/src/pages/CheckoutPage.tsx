@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Container, Typography, Box, TextField, Button, Divider, Alert } from '@mui/material';
+import { Container, Typography, Box, TextField, Button, Divider, Alert, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { clearCart } from '../store/slices/cartSlice';
@@ -60,48 +60,54 @@ export function CheckoutPage() {
 
   return (
     <Container sx={{ py: 4, maxWidth: 600 }}>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
         Оформление заказа
       </Typography>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Typography variant="h6">Доставка</Typography>
-        <TextField label="Имя и фамилия" value={fullName} onChange={(e) => setFullName(e.target.value)} fullWidth />
-        <TextField label="Телефон" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth />
-        <TextField label="Город" value={city} onChange={(e) => setCity(e.target.value)} fullWidth />
-        <TextField label="Адрес" value={address} onChange={(e) => setAddress(e.target.value)} fullWidth />
+      <Paper variant="outlined" sx={{ borderRadius: 3, p: 3 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="h6" color="primary.main">
+            Доставка
+          </Typography>
+          <TextField label="Имя и фамилия" value={fullName} onChange={(e) => setFullName(e.target.value)} fullWidth />
+          <TextField label="Телефон" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth />
+          <TextField label="Город" value={city} onChange={(e) => setCity(e.target.value)} fullWidth />
+          <TextField label="Адрес" value={address} onChange={(e) => setAddress(e.target.value)} fullWidth />
 
-        <Divider sx={{ my: 1 }} />
+          <Divider sx={{ my: 1 }} />
 
-        <Typography variant="h6">Оплата картой</Typography>
-        <TextField
-          label="Номер карты"
-          value={cardNumber}
-          onChange={(e) => setCardNumber(e.target.value)}
-          placeholder="4242 4242 4242 4242"
-          fullWidth
-        />
-        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Typography variant="h6" color="primary.main">
+            Оплата картой
+          </Typography>
           <TextField
-            label="ММ/ГГ"
-            value={cardExpiry}
-            onChange={(e) => setCardExpiry(e.target.value)}
-            placeholder="12/28"
+            label="Номер карты"
+            value={cardNumber}
+            onChange={(e) => setCardNumber(e.target.value)}
+            placeholder="4242 4242 4242 4242"
             fullWidth
           />
-          <TextField label="CVC" value={cardCvc} onChange={(e) => setCardCvc(e.target.value)} fullWidth />
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              label="ММ/ГГ"
+              value={cardExpiry}
+              onChange={(e) => setCardExpiry(e.target.value)}
+              placeholder="12/28"
+              fullWidth
+            />
+            <TextField label="CVC" value={cardCvc} onChange={(e) => setCardCvc(e.target.value)} fullWidth />
+          </Box>
+
+          <Divider sx={{ my: 1 }} />
+
+          <Typography variant="h5">Итого: {total} MDL</Typography>
+
+          <Button type="submit" variant="contained" color="primary" size="large">
+            Оплатить и оформить заказ
+          </Button>
         </Box>
-
-        <Divider sx={{ my: 1 }} />
-
-        <Typography variant="h5">Итого: {total} MDL</Typography>
-
-        <Button type="submit" variant="contained" size="large">
-          Оплатить и оформить заказ
-        </Button>
-      </Box>
+      </Paper>
     </Container>
   );
 }

@@ -1,14 +1,10 @@
 import { createTheme } from '@mui/material/styles';
-
-// Citron — подарочный магазин. Палитра: глубокий лесной зелёный + тёплый
-// шалфейный фон (мягче для глаз, чем чистый белый) + коралловый акцент
-// для действий — даёт "подарочное" настроение вместо скучного моно-зелёного.
 export const theme = createTheme({
   palette: {
-    primary: { main: '#1F4D36', dark: '#153726', light: '#3C7259' },
-    secondary: { main: '#E8735A' },
-    background: { default: '#F4F7F1', paper: '#FFFFFF' },
-    text: { primary: '#1C2A22', secondary: '#5B6B60' }
+    primary: { main: '#1E7A4C', dark: '#145C38', light: '#4FAE7C' },
+    secondary: { main: '#F5D800', dark: '#D9BE00', light: '#FFE94D', contrastText: '#153726' },
+    background: { default: '#FBFCF8', paper: '#FFFFFF' },
+    text: { primary: '#16241C', secondary: '#5B6B60' }
   },
   shape: { borderRadius: 16 },
   typography: {
@@ -29,14 +25,14 @@ export const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: '0 2px 14px rgba(31,77,54,0.08)',
-          border: '1px solid rgba(31,77,54,0.08)'
+          boxShadow: '0 2px 14px rgba(30,122,76,0.10)',
+          border: '2px solid rgba(30,122,76,0.12)'
         }
       }
     },
-    MuiAppBar: {
+    MuiChip: {
       styleOverrides: {
-        root: { backgroundColor: '#F4F7F1' }
+        colorPrimary: { backgroundColor: '#F5D800', color: '#153726', fontWeight: 600 }
       }
     }
   }

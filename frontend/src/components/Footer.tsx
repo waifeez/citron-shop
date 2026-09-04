@@ -6,10 +6,10 @@ export function Footer() {
       <Container>
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, sm: 4 }}>
-            <Typography variant="h6" sx={{ fontFamily: "'Fraunces', serif", mb: 1 }}>
+            <Typography variant="h6" sx={{ fontFamily: "'Fraunces', serif", mb: 1, color: '#F5D800' }}>
               Citron
             </Typography>
-            <Typography variant="body2" sx={{ opacity: 0.8 }}>
+            <Typography variant="body2" sx={{ opacity: 0.85 }}>
               Подарки, игрушки и аксессуары в Кишинёве.
             </Typography>
           </Grid>
@@ -17,10 +17,10 @@ export function Footer() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Typography sx={{ fontWeight: 600, mb: 1 }}>Покупателям</Typography>
             <Stack spacing={0.5}>
-              <Typography variant="body2" sx={{ opacity: 0.8 }}>
+              <Typography variant="body2" sx={{ opacity: 0.85 }}>
                 Доставка и оплата
               </Typography>
-              <Typography variant="body2" sx={{ opacity: 0.8 }}>
+              <Typography variant="body2" sx={{ opacity: 0.85 }}>
                 Возврат товара
               </Typography>
             </Stack>
@@ -29,10 +29,10 @@ export function Footer() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Typography sx={{ fontWeight: 600, mb: 1 }}>Контакты</Typography>
             <Stack spacing={0.5}>
-              <Typography variant="body2" sx={{ opacity: 0.8 }}>
+              <Typography variant="body2" sx={{ opacity: 0.85 }}>
                 Кишинёв, Молдова
               </Typography>
-              <Typography variant="body2" sx={{ opacity: 0.8 }}>
+              <Typography variant="body2" sx={{ opacity: 0.85 }}>
                 +373 XX XXX XXX
               </Typography>
             </Stack>
