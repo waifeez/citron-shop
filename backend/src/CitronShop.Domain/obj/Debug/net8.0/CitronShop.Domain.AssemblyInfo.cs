@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CitronShop.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+823eb22f04ca83df4bf290ed9f807ce5c4c621c2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1209db07cacc3b1c11d9867bfbd95944505bd783")]
 [assembly: System.Reflection.AssemblyProductAttribute("CitronShop.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CitronShop.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
