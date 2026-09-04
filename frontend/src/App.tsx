@@ -16,6 +16,20 @@ import { AdminProductFormPage } from './pages/admin/AdminProductFormPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { ToastNotifications } from './components/ToastNotifications';
+
+function PageTransition({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -45,23 +59,11 @@ function AnimatedRoutes() {
   );
 }
 
-function PageTransition({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.2, ease: 'easeInOut' }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 function App() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
+      <ToastNotifications />
       <Box sx={{ flexGrow: 1 }}>
         <AnimatedRoutes />
       </Box>

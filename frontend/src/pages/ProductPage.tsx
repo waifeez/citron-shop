@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Grid, Box, Typography, Button, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addToCart } from '../store/slices/cartSlice';
+import { showToast } from '../store/slices/uiSlice';
 
 function ProductHeroArt() {
   return (
@@ -82,7 +83,10 @@ export function ProductPage() {
             color="primary"
             size="large"
             disabled={product.stockQuantity === 0}
-            onClick={() => dispatch(addToCart(product))}
+            onClick={() => {
+              dispatch(addToCart(product));
+              dispatch(showToast(`«${product.name}» добавлен в корзину`));
+            }}
           >
             Добавить в корзину
           </Button>

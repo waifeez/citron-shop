@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Product } from '../types';
 import { useAppDispatch } from '../store/hooks';
 import { addToCart } from '../store/slices/cartSlice';
+import { showToast } from '../store/slices/uiSlice';
 
 function ProductPlaceholderArt() {
   return (
@@ -57,7 +58,15 @@ export function ProductCard({ product }: { product: Product }) {
       </CardActionArea>
 
       <Box sx={{ p: 2, pt: 0 }}>
-        <Button variant="contained" color="primary" fullWidth onClick={() => dispatch(addToCart(product))}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => {
+            dispatch(addToCart(product));
+            dispatch(showToast(`«${product.name}» добавлен в корзину`));
+          }}
+        >
           В корзину
         </Button>
       </Box>
