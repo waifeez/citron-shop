@@ -1,4 +1,5 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { Box } from '@mui/material';
 import { HomePage } from './pages/HomePage';
 import { CatalogPage } from './pages/CatalogPage';
 import { CartPage } from './pages/CartPage';
@@ -11,53 +12,36 @@ import { ProfilePage } from './pages/ProfilePage';
 import { AdminProductsPage } from './pages/admin/AdminProductsPage';
 import { AdminProductFormPage } from './pages/admin/AdminProductFormPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { useAppSelector, useAppDispatch } from './store/hooks';
-import { logout } from './store/slices/authSlice';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 
 function App() {
-  const { user } = useAppSelector((s) => s.auth);
-  const cartCount = useAppSelector((s) =>
-    s.cart.lines.reduce((sum: number, l) => sum + l.quantity, 0)
-  );
-  const dispatch = useAppDispatch();
-
   return (
-    <div>
-      <nav style={{ display: 'flex', gap: 16, padding: 16, alignItems: 'center' }}>
-        <Link to="/">Главная</Link>
-        <Link to="/catalog">Каталог</Link>
-        <Link to="/cart">Корзина ({cartCount})</Link>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Header />
 
-        {user?.roles.includes('Admin') && <Link to="/admin/products">Админка</Link>}
+      <Box sx={{ flexGrow: 1 }}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/product/:slug" element={<ProductPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order-success" element={<OrderSuccessPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
-        {user ? (
-          <>
-            <Link to="/profile">Привет, {user.fullName}</Link>
-            <button onClick={() => dispatch(logout())}>Выйти</button>
-          </>
-        ) : (
-          <Link to="/login">Вход</Link>
-        )}
-      </nav>
+          <Route element={<ProtectedRoute requireAdmin />}>
+            <Route path="/admin/products" element={<AdminProductsPage />} />
+            <Route path="/admin/products/new" element={<AdminProductFormPage />} />
+            <Route path="/admin/products/:id" element={<AdminProductFormPage />} />
+          </Route>
+        </Routes>
+      </Box>
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/catalog" element={<CatalogPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/product/:slug" element={<ProductPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/order-success" element={<OrderSuccessPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-
-        <Route element={<ProtectedRoute requireAdmin />}>
-          <Route path="/admin/products" element={<AdminProductsPage />} />
-          <Route path="/admin/products/new" element={<AdminProductFormPage />} />
-          <Route path="/admin/products/:id" element={<AdminProductFormPage />} />
-        </Route>
-      </Routes>
-    </div>
+      <Footer />
+    </Box>
   );
 }
 
