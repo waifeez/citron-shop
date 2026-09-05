@@ -16,3 +16,5 @@ C:\Projects\backend\src\CitronShop.Infrastructure\obj\Debug\net8.0\CitronShop.In
 C:\Projects\backend\src\CitronShop.Infrastructure\obj\Debug\net8.0\refint\CitronShop.Infrastructure.dll
 C:\Projects\backend\src\CitronShop.Infrastructure\obj\Debug\net8.0\CitronShop.Infrastructure.pdb
 C:\Projects\backend\src\CitronShop.Infrastructure\obj\Debug\net8.0\ref\CitronShop.Infrastructure.dll
+C:\Projects\backend\src\CitronShop.Infrastructure\bin\Debug\net8.0\CitronShop.Infrastructure.runtimeconfig.json
+C:\Projects\backend\src\CitronShop.Infrastructure\obj\Debug\net8.0\CitronShop.Infrastructure.genruntimeconfig.cache
