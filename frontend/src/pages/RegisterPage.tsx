@@ -1,19 +1,22 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Box, Button, Container, TextField, Typography, Alert, Link as MuiLink } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { setCredentials } from '../store/slices/authSlice';
+import { authApi } from '../api/authApi';
 
 export function RegisterPage() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setError('');
 
     if (!fullName || !email || !password) {
       setError('Заполни все поля');
@@ -24,18 +27,21 @@ export function RegisterPage() {
       return;
     }
 
-    dispatch(
-      setCredentials({
-        user: { id: '1', fullName, email, roles: ['Customer'] },
-        token: 'fake-jwt-token'
-      })
-    );
-    navigate('/');
+    setLoading(true);
+    try {
+      const response = await authApi.register(fullName, email, password);
+      dispatch(setCredentials({ user: response.user, token: response.token }));
+      navigate('/');
+    } catch (err: any) {
+      setError(err?.response?.data?.message ?? 'Ошибка регистрации — возможно, email уже занят');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Container maxWidth="xs" sx={{ mt: 8 }}>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
         Регистрация
       </Typography>
 
@@ -51,8 +57,8 @@ export function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
           fullWidth
         />
-        <Button type="submit" variant="contained" size="large">
-          Зарегистрироваться
+        <Button type="submit" variant="contained" size="large" disabled={loading}>
+          {loading ? 'Регистрируем...' : 'Зарегистрироваться'}
         </Button>
 
         <Typography variant="body2" sx={{ textAlign: 'center' }}>
