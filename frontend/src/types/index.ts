@@ -65,3 +65,26 @@ export interface PagedResult<T> {
   pageSize: number;
   totalPages: number;
 }
+
+export type OrderStatus = 'Pending' | 'Paid' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+
+export interface OrderItem {
+  productId: string;
+  productName: string;
+  unitPrice: number;
+  quantity: number;
+  lineTotal: number;
+}
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  createdAt: string;
+  totalAmount: number;
+  status: OrderStatus;
+  shippingFullName: string;
+  shippingPhone: string;
+  shippingAddress: string;
+  shippingCity: string;
+  items: OrderItem[];
+}

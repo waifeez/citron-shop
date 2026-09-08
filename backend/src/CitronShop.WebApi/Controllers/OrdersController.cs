@@ -11,7 +11,8 @@ namespace CitronShop.WebApi.Controllers;
 [Authorize]
 public class OrdersController(IOrderService orderService) : ControllerBase
 {
-    private string UserId => User.FindFirst("sub")!.Value;
+    private string UserId => User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+    ?? User.FindFirst("sub")!.Value;
 
     [HttpPost("checkout")]
     public async Task<ActionResult<OrderDto>> Checkout(CreateOrderRequest request)

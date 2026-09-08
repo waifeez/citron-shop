@@ -1,33 +1,38 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { OrderRecord } from '../../types';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import type { Order } from '../../types';
+import { ordersApi, type CheckoutPayload } from '../../api/ordersApi';
 
 interface OrdersState {
-  history: OrderRecord[];
+  history: Order[];
+  status: 'idle' | 'loading' | 'error';
 }
 
-const loadInitial = (): OrderRecord[] => {
-  const stored = localStorage.getItem('citron_orders');
-  return stored ? (JSON.parse(stored) as OrderRecord[]) : [];
-};
-
 const initialState: OrdersState = {
-  history: loadInitial()
+  history: [],
+  status: 'idle'
 };
 
-const persist = (history: OrderRecord[]) => {
-  localStorage.setItem('citron_orders', JSON.stringify(history));
-};
+export const fetchMyOrders = createAsyncThunk('orders/fetchMine', () => ordersApi.mine());
+
+export const checkout = createAsyncThunk('orders/checkout', (payload: CheckoutPayload) => ordersApi.checkout(payload));
 
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {
-    addOrder(state, action: PayloadAction<OrderRecord>) {
-      state.history.unshift(action.payload);
-      persist(state.history);
-    }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchMyOrders.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchMyOrders.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.history = action.payload;
+      })
+      .addCase(checkout.fulfilled, (state, action) => {
+        state.history.unshift(action.payload);
+      });
   }
 });
 
-export const { addOrder } = ordersSlice.actions;
 export default ordersSlice.reducer;

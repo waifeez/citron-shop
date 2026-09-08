@@ -10,7 +10,8 @@ namespace CitronShop.WebApi.Controllers;
 [Authorize]
 public class CartController(ICartService cartService) : ControllerBase
 {
-    private string UserId => User.FindFirst("sub")!.Value;
+    private string UserId => User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+    ?? User.FindFirst("sub")!.Value;
 
     [HttpGet]
     public async Task<ActionResult<CartDto>> GetCart() => Ok(await cartService.GetCartAsync(UserId));

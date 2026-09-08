@@ -1,9 +1,17 @@
-import { Container, Typography, Box, Divider, Paper } from '@mui/material';
-import { useAppSelector } from '../store/hooks';
+import { useEffect } from 'react';
+import { Container, Typography, Box, Divider, Paper, CircularProgress } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { fetchMyOrders } from '../store/slices/ordersSlice';
 
 export function ProfilePage() {
   const { user } = useAppSelector((s) => s.auth);
   const orders = useAppSelector((s) => s.orders.history);
+  const status = useAppSelector((s) => s.orders.status);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user) dispatch(fetchMyOrders());
+  }, [user, dispatch]);
 
   if (!user) {
     return (
@@ -26,7 +34,8 @@ export function ProfilePage() {
         История заказов
       </Typography>
 
-      {orders.length === 0 && <Typography color="text.secondary">Заказов пока нет</Typography>}
+      {status === 'loading' && orders.length === 0 && <CircularProgress color="primary" />}
+      {status === 'idle' && orders.length === 0 && <Typography color="text.secondary">Заказов пока нет</Typography>}
 
       {orders.map((order) => (
         <Paper key={order.id} sx={{ p: 2, mb: 2, borderRadius: 3 }} variant="outlined">
@@ -44,7 +53,7 @@ export function ProfilePage() {
               <Typography variant="body2">
                 {item.productName} × {item.quantity}
               </Typography>
-              <Typography variant="body2">{item.unitPrice * item.quantity} MDL</Typography>
+              <Typography variant="body2">{item.lineTotal} MDL</Typography>
             </Box>
           ))}
 
@@ -53,7 +62,7 @@ export function ProfilePage() {
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography sx={{ fontWeight: 600 }}>Итого</Typography>
             <Typography sx={{ fontWeight: 600 }} color="primary.main">
-              {order.total} MDL
+              {order.totalAmount} MDL
             </Typography>
           </Box>
 

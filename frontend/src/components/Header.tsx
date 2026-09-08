@@ -23,7 +23,7 @@ function Logo() {
 
 export function Header() {
   const { user } = useAppSelector((s) => s.auth);
-  const cartCount = useAppSelector((s) => s.cart.lines.reduce((sum, l) => sum + l.quantity, 0));
+ const cartCount = useAppSelector((s) => s.cart.data.itemCount);
   const dispatch = useAppDispatch();
 
   return (

@@ -2,11 +2,11 @@ import { useState, type FormEvent } from 'react';
 import { Container, Typography, Box, TextField, Button, Divider, Alert, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { clearCart } from '../store/slices/cartSlice';
-import { addOrder } from '../store/slices/ordersSlice';
+import { checkout } from '../store/slices/ordersSlice';
+import { fetchCart } from '../store/slices/cartSlice';
 
 export function CheckoutPage() {
-  const lines = useAppSelector((s) => s.cart.lines);
+  const cart = useAppSelector((s) => s.cart.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -18,39 +18,41 @@ export function CheckoutPage() {
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvc, setCardCvc] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const total = lines.reduce((sum, l) => sum + l.product.effectivePrice * l.quantity, 0);
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setError('');
 
     if (!fullName || !phone || !address || !city || !cardNumber || !cardExpiry || !cardCvc) {
       setError('Заполни все поля');
       return;
     }
 
-    dispatch(
-      addOrder({
-        id: crypto.randomUUID(),
-        orderNumber: `CIT-${Date.now().toString().slice(-8)}`,
-        createdAt: new Date().toISOString(),
-        items: lines.map((l) => ({
-          productName: l.product.name,
-          unitPrice: l.product.effectivePrice,
-          quantity: l.quantity
-        })),
-        total,
-        shippingFullName: fullName,
-        shippingAddress: address,
-        shippingCity: city
-      })
-    );
+    setSubmitting(true);
+    try {
+      await dispatch(
+        checkout({
+          shippingFullName: fullName,
+          shippingPhone: phone,
+          shippingAddress: address,
+          shippingCity: city,
+          cardNumber,
+          cardExpiry,
+          cardCvc
+        })
+      ).unwrap();
 
-    dispatch(clearCart());
-    navigate('/order-success');
+      dispatch(fetchCart());
+      navigate('/order-success');
+    } catch (err: any) {
+      setError(err?.response?.data?.message ?? 'Не удалось оформить заказ');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  if (lines.length === 0) {
+  if (cart.items.length === 0) {
     return (
       <Container sx={{ py: 6, textAlign: 'center' }}>
         <Typography variant="h5">Корзина пуста — нечего оформлять</Typography>
@@ -101,10 +103,10 @@ export function CheckoutPage() {
 
           <Divider sx={{ my: 1 }} />
 
-          <Typography variant="h5">Итого: {total} MDL</Typography>
+          <Typography variant="h5">Итого: {cart.total} MDL</Typography>
 
-          <Button type="submit" variant="contained" color="primary" size="large">
-            Оплатить и оформить заказ
+          <Button type="submit" variant="contained" color="primary" size="large" disabled={submitting}>
+            {submitting ? 'Оформляем...' : 'Оплатить и оформить заказ'}
           </Button>
         </Box>
       </Paper>
