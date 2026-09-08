@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Box } from '@mui/material';
@@ -17,6 +18,9 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ToastNotifications } from './components/ToastNotifications';
+import { useAppDispatch } from './store/hooks';
+import { fetchProducts } from './store/slices/productsSlice';
+import { fetchCategories } from './store/slices/categoriesSlice';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   return (
@@ -60,6 +64,13 @@ function AnimatedRoutes() {
 }
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
