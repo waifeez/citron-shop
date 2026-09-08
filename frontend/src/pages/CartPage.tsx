@@ -1,19 +1,45 @@
-import { Container, Typography, Box, IconButton, Button, Divider, Paper } from '@mui/material';
+import { useEffect } from 'react';
+import { Container, Typography, Box, IconButton, Button, Divider, Paper, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { increment, decrement, removeFromCart, clearCart } from '../store/slices/cartSlice';
+import { fetchCart, updateCartItem, removeCartItem } from '../store/slices/cartSlice';
 
 export function CartPage() {
-  const lines = useAppSelector((s) => s.cart.lines);
+  const cart = useAppSelector((s) => s.cart.data);
+  const status = useAppSelector((s) => s.cart.status);
+  const { user } = useAppSelector((s) => s.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const total = lines.reduce((sum: number, l) => sum + l.product.effectivePrice * l.quantity, 0);
+  useEffect(() => {
+    if (user) dispatch(fetchCart());
+  }, [user, dispatch]);
 
-  if (lines.length === 0) {
+  if (!user) {
+    return (
+      <Container sx={{ py: 8, textAlign: 'center' }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          Нужно войти в аккаунт
+        </Typography>
+        <Button variant="contained" onClick={() => navigate('/login')}>
+          Войти
+        </Button>
+      </Container>
+    );
+  }
+
+  if (status === 'loading' && cart.items.length === 0) {
+    return (
+      <Container sx={{ py: 8, textAlign: 'center' }}>
+        <CircularProgress color="primary" />
+      </Container>
+    );
+  }
+
+  if (cart.items.length === 0) {
     return (
       <Container sx={{ py: 8, textAlign: 'center' }}>
         <Typography variant="h5" sx={{ mb: 1 }}>
@@ -36,47 +62,44 @@ export function CartPage() {
       </Typography>
 
       <Paper variant="outlined" sx={{ borderRadius: 3, overflow: 'hidden' }}>
-        {lines.map((line, i) => (
-          <Box key={line.product.id}>
+        {cart.items.map((item, i) => (
+          <Box key={item.id}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 2, px: 2 }}>
-              <Typography sx={{ flexGrow: 1, fontWeight: 500 }}>{line.product.name}</Typography>
+              <Typography sx={{ flexGrow: 1, fontWeight: 500 }}>{item.productName}</Typography>
 
-              <IconButton size="small" onClick={() => dispatch(decrement(line.product.id))}>
+              <IconButton
+                size="small"
+                onClick={() => dispatch(updateCartItem({ productId: item.productId, quantity: item.quantity - 1 }))}
+              >
                 <RemoveIcon fontSize="small" />
               </IconButton>
-              <Typography sx={{ minWidth: 20, textAlign: 'center' }}>{line.quantity}</Typography>
-              <IconButton size="small" onClick={() => dispatch(increment(line.product.id))}>
+              <Typography sx={{ minWidth: 20, textAlign: 'center' }}>{item.quantity}</Typography>
+              <IconButton
+                size="small"
+                onClick={() => dispatch(updateCartItem({ productId: item.productId, quantity: item.quantity + 1 }))}
+                disabled={item.quantity >= item.availableStock}
+              >
                 <AddIcon fontSize="small" />
               </IconButton>
 
               <Typography sx={{ width: 90, textAlign: 'right', fontWeight: 600 }} color="primary.main">
-                {line.product.effectivePrice * line.quantity} MDL
+                {item.lineTotal} MDL
               </Typography>
 
-              <IconButton size="small" onClick={() => dispatch(removeFromCart(line.product.id))}>
+              <IconButton size="small" onClick={() => dispatch(removeCartItem(item.productId))}>
                 <DeleteOutlineIcon fontSize="small" />
               </IconButton>
             </Box>
-            {i < lines.length - 1 && <Divider />}
+            {i < cart.items.length - 1 && <Divider />}
           </Box>
         ))}
       </Paper>
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
-        <Typography variant="h5">Итого: {total} MDL</Typography>
-        <Button variant="outlined" color="error" onClick={() => dispatch(clearCart())}>
-          Очистить корзину
-        </Button>
+        <Typography variant="h5">Итого: {cart.total} MDL</Typography>
       </Box>
 
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        fullWidth
-        sx={{ mt: 3 }}
-        onClick={() => navigate('/checkout')}
-      >
+      <Button variant="contained" color="primary" size="large" fullWidth sx={{ mt: 3 }} onClick={() => navigate('/checkout')}>
         Оформить заказ
       </Button>
     </Container>

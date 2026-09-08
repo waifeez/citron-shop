@@ -20,6 +20,15 @@ export function ProductCard({ product }: { product: Product }) {
   const navigate = useNavigate();
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
 
+  const handleAddToCart = async () => {
+    try {
+      await dispatch(addToCart({ productId: product.id })).unwrap();
+      dispatch(showToast(`«${product.name}» добавлен в корзину`));
+    } catch {
+      dispatch(showToast('Не удалось добавить товар — попробуй войти в аккаунт'));
+    }
+  };
+
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <CardActionArea onClick={() => navigate(`/product/${product.slug}`)}>
@@ -58,15 +67,7 @@ export function ProductCard({ product }: { product: Product }) {
       </CardActionArea>
 
       <Box sx={{ p: 2, pt: 0 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => {
-            dispatch(addToCart(product));
-            dispatch(showToast(`«${product.name}» добавлен в корзину`));
-          }}
-        >
+        <Button variant="contained" color="primary" fullWidth onClick={handleAddToCart}>
           В корзину
         </Button>
       </Box>

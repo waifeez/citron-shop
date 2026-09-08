@@ -3,6 +3,7 @@ import { Box, Button, Container, TextField, Typography, Alert, Link as MuiLink }
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { setCredentials } from '../store/slices/authSlice';
+import { fetchCart } from '../store/slices/cartSlice';
 import { authApi } from '../api/authApi';
 
 export function LoginPage() {
@@ -26,6 +27,7 @@ export function LoginPage() {
     try {
       const response = await authApi.login(email, password);
       dispatch(setCredentials({ user: response.user, token: response.token }));
+      dispatch(fetchCart());
       navigate('/');
     } catch {
       setError('Неверный email или пароль');

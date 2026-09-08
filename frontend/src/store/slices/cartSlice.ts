@@ -1,52 +1,57 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Product } from '../../types';
-
-interface CartLine {
-  product: Product;
-  quantity: number;
-}
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import type { Cart } from '../../types';
+import { cartApi } from '../../api/cartApi';
 
 interface CartState {
-  lines: CartLine[];
+  data: Cart;
+  status: 'idle' | 'loading' | 'error';
 }
 
 const initialState: CartState = {
-  lines: []
+  data: { items: [], total: 0, itemCount: 0 },
+  status: 'idle'
 };
+
+export const fetchCart = createAsyncThunk('cart/fetch', () => cartApi.get());
+
+export const addToCart = createAsyncThunk(
+  'cart/add',
+  ({ productId, quantity = 1 }: { productId: string; quantity?: number }) => cartApi.addItem(productId, quantity)
+);
+
+export const updateCartItem = createAsyncThunk(
+  'cart/update',
+  ({ productId, quantity }: { productId: string; quantity: number }) => cartApi.updateItem(productId, quantity)
+);
+
+export const removeCartItem = createAsyncThunk('cart/remove', (productId: string) => cartApi.removeItem(productId));
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<Product>) {
-      const existing = state.lines.find((l) => l.product.id === action.payload.id);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        state.lines.push({ product: action.payload, quantity: 1 });
-      }
-    },
-    increment(state, action: PayloadAction<string>) {
-      const line = state.lines.find((l) => l.product.id === action.payload);
-      if (line) line.quantity += 1;
-    },
-    decrement(state, action: PayloadAction<string>) {
-      const line = state.lines.find((l) => l.product.id === action.payload);
-      if (line) {
-        line.quantity -= 1;
-        if (line.quantity <= 0) {
-          state.lines = state.lines.filter((l) => l.product.id !== action.payload);
-        }
-      }
-    },
-    removeFromCart(state, action: PayloadAction<string>) {
-      state.lines = state.lines.filter((l) => l.product.id !== action.payload);
-    },
-    clearCart(state) {
-      state.lines = [];
+    resetCart(state) {
+      state.data = { items: [], total: 0, itemCount: 0 };
     }
+  },
+    extraReducers: (builder) => {
+    builder.addMatcher(
+      (action): action is { type: string; payload: Cart } =>
+        action.type.startsWith('cart/') && action.type.endsWith('/fulfilled'),
+      (state, action) => {
+        state.status = 'idle';
+        state.data = action.payload;
+      }
+    );
+    builder.addMatcher(
+      (action) => action.type.startsWith('cart/') && action.type.endsWith('/pending'),
+      (state) => {
+        state.status = 'loading';
+      }
+    );
   }
-});
+  }
+);
 
-export const { addToCart, increment, decrement, removeFromCart, clearCart } = cartSlice.actions;
+export const { resetCart } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -1,14 +1,28 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Typography, Box, TextField, Button, FormControlLabel, Switch } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Box,
+  TextField,
+  Button,
+  FormControlLabel,
+  Switch,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  type SelectChangeEvent
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addProduct, updateProduct } from '../../store/slices/productsSlice';
+import { createProduct, updateProduct } from '../../store/slices/productsSlice';
 
 export function AdminProductFormPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const existing = useAppSelector((s) => s.products.items.find((p) => p.id === id));
+  const categories = useAppSelector((s) => s.categories.items);
 
   const [name, setName] = useState(existing?.name ?? '');
   const [description, setDescription] = useState(existing?.description ?? '');
@@ -16,10 +30,20 @@ export function AdminProductFormPage() {
   const [discountPrice, setDiscountPrice] = useState(existing?.discountPrice?.toString() ?? '');
   const [stockQuantity, setStockQuantity] = useState(existing?.stockQuantity?.toString() ?? '');
   const [isFeatured, setIsFeatured] = useState(existing?.isFeatured ?? false);
-  const [categoryName, setCategoryName] = useState(existing?.categoryName ?? '');
+  const [categoryId, setCategoryId] = useState(existing?.categoryId ?? '');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!categoryId) {
+      setError('Выбери категорию');
+      return;
+    }
+
+    setSaving(true);
+    setError('');
 
     const payload = {
       name,
@@ -27,27 +51,32 @@ export function AdminProductFormPage() {
       price: Number(price),
       discountPrice: discountPrice ? Number(discountPrice) : undefined,
       stockQuantity: Number(stockQuantity),
-      isActive: true,
       isFeatured,
-      categoryId: 'general',
-      categoryName: categoryName || 'Без категории',
+      categoryId,
       imageUrls: []
     };
 
-    if (existing) {
-      dispatch(updateProduct({ ...existing, ...payload }));
-    } else {
-      dispatch(addProduct(payload));
+    try {
+      if (existing) {
+        await dispatch(updateProduct({ id: existing.id, payload: { ...payload, isActive: true } })).unwrap();
+      } else {
+        await dispatch(createProduct(payload)).unwrap();
+      }
+      navigate('/admin/products');
+    } catch {
+      setError('Не удалось сохранить товар');
+    } finally {
+      setSaving(false);
     }
-
-    navigate('/admin/products');
   };
 
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
         {existing ? 'Редактировать товар' : 'Новый товар'}
       </Typography>
+
+      {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
 
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField label="Название" value={name} onChange={(e) => setName(e.target.value)} required fullWidth />
@@ -59,15 +88,23 @@ export function AdminProductFormPage() {
           rows={3}
           fullWidth
         />
-        <TextField label="Категория" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} fullWidth />
-        <TextField
-          label="Цена (MDL)"
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-          fullWidth
-        />
+
+        <FormControl fullWidth required>
+          <InputLabel>Категория</InputLabel>
+          <Select
+            value={categoryId}
+            label="Категория"
+            onChange={(e: SelectChangeEvent) => setCategoryId(e.target.value)}
+          >
+            {categories.map((c) => (
+              <MenuItem key={c.id} value={c.id}>
+                {c.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <TextField label="Цена (MDL)" type="number" value={price} onChange={(e) => setPrice(e.target.value)} required fullWidth />
         <TextField
           label="Цена со скидкой (необязательно)"
           type="number"
@@ -88,8 +125,8 @@ export function AdminProductFormPage() {
           label="Хит продаж"
         />
 
-        <Button type="submit" variant="contained" size="large">
-          {existing ? 'Сохранить' : 'Добавить товар'}
+        <Button type="submit" variant="contained" size="large" disabled={saving}>
+          {saving ? 'Сохраняем...' : existing ? 'Сохранить' : 'Добавить товар'}
         </Button>
       </Box>
     </Container>

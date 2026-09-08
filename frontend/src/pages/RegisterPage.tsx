@@ -3,6 +3,7 @@ import { Box, Button, Container, TextField, Typography, Alert, Link as MuiLink }
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { setCredentials } from '../store/slices/authSlice';
+import { fetchCart } from '../store/slices/cartSlice';
 import { authApi } from '../api/authApi';
 
 export function RegisterPage() {
@@ -31,6 +32,7 @@ export function RegisterPage() {
     try {
       const response = await authApi.register(fullName, email, password);
       dispatch(setCredentials({ user: response.user, token: response.token }));
+      dispatch(fetchCart());
       navigate('/');
     } catch (err: any) {
       setError(err?.response?.data?.message ?? 'Ошибка регистрации — возможно, email уже занят');

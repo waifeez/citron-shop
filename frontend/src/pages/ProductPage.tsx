@@ -45,6 +45,15 @@ export function ProductPage() {
 
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
 
+  const handleAddToCart = async () => {
+    try {
+      await dispatch(addToCart({ productId: product.id })).unwrap();
+      dispatch(showToast(`«${product.name}» добавлен в корзину`));
+    } catch {
+      dispatch(showToast('Не удалось добавить товар — попробуй войти в аккаунт'));
+    }
+  };
+
   return (
     <Container sx={{ py: 4 }}>
       <Grid container spacing={4}>
@@ -83,10 +92,7 @@ export function ProductPage() {
             color="primary"
             size="large"
             disabled={product.stockQuantity === 0}
-            onClick={() => {
-              dispatch(addToCart(product));
-              dispatch(showToast(`«${product.name}» добавлен в корзину`));
-            }}
+            onClick={handleAddToCart}
           >
             Добавить в корзину
           </Button>
