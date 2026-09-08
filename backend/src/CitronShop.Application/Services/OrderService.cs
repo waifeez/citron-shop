@@ -27,7 +27,7 @@ public class OrderService(IShopDbContext db) : IOrderService
             ShippingAddress = request.ShippingAddress,
             ShippingCity = request.ShippingCity,
             TotalAmount = total,
-            Status = OrderStatus.Paid,
+            Status = OrderStatus.Pending,
             Items = cartItems.Select(c => new OrderItem
             {
                 ProductId = c.ProductId,

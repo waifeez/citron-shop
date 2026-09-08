@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Hangfire;
+using CitronShop.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +51,15 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<OrderCleanupService>();
+
+builder.Services.AddHangfire(config => config
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddHangfireServer();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
 builder.Services.AddCors(options =>
@@ -114,5 +125,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<CitronShop.WebApi.Hubs.OrdersHub>("/hubs/orders");
+app.UseHangfireDashboard("/hangfire");
+RecurringJob.AddOrUpdate<OrderCleanupService>(
+    "cancel-expired-orders",
+    service => service.CancelExpiredOrdersAsync(),
+    "* * * * *");
 
 app.Run();

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CitronShop.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b3772579593331e233d473d21e7d08c0aeed1d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82e56de754f4fbc16221f04ef31911c31d6280b4")]
 [assembly: System.Reflection.AssemblyProductAttribute("CitronShop.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CitronShop.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
