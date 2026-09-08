@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Container, Typography, Table, TableHead, TableBody, TableRow, TableCell, Chip, CircularProgress } from '@mui/material';
+import { Container, Typography, Table, TableHead, TableBody, TableRow, TableCell, Chip, CircularProgress, Badge } from '@mui/material';
 import { ordersApi } from '../../api/ordersApi';
+import { createOrdersConnection } from '../../api/signalr';
 import type { Order } from '../../types';
 
 const statusColors: Record<string, 'default' | 'warning' | 'success' | 'info' | 'error'> = {
@@ -15,12 +16,28 @@ const statusColors: Record<string, 'default' | 'warning' | 'success' | 'info' | 
 export function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [newOrderIds, setNewOrderIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     ordersApi.all(1, 50).then((result) => {
       setOrders(result.items);
       setLoading(false);
     });
+  }, []);
+
+  useEffect(() => {
+    const connection = createOrdersConnection();
+
+    connection.on('NewOrder', (order: Order) => {
+      setOrders((prev) => [order, ...prev]);
+      setNewOrderIds((prev) => new Set(prev).add(order.id));
+    });
+
+    connection.start().catch((err) => console.error('Ошибка подключения SignalR:', err));
+
+    return () => {
+      connection.stop();
+    };
   }, []);
 
   return (
@@ -44,8 +61,13 @@ export function AdminOrdersPage() {
           </TableHead>
           <TableBody>
             {orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell>{order.orderNumber}</TableCell>
+              <TableRow key={order.id} sx={newOrderIds.has(order.id) ? { bgcolor: 'rgba(245, 216, 0, 0.15)' } : undefined}>
+                <TableCell>
+                  {newOrderIds.has(order.id) && (
+                    <Badge color="secondary" variant="dot" sx={{ mr: 1 }} />
+                  )}
+                  {order.orderNumber}
+                </TableCell>
                 <TableCell>{new Date(order.createdAt).toLocaleString('ru-RU')}</TableCell>
                 <TableCell>{order.shippingFullName}</TableCell>
                 <TableCell>{order.totalAmount} MDL</TableCell>
