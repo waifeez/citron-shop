@@ -3,23 +3,27 @@ using CitronShop.Application.Interfaces;
 using CitronShop.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using CitronShop.WebApi.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace CitronShop.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class OrdersController(IOrderService orderService) : ControllerBase
+public class OrdersController(IOrderService orderService, IHubContext<OrdersHub> hub) : ControllerBase
 {
     private string UserId => User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
     ?? User.FindFirst("sub")!.Value;
 
-    [HttpPost("checkout")]
+       [HttpPost("checkout")]
     public async Task<ActionResult<OrderDto>> Checkout(CreateOrderRequest request)
     {
         try
         {
-            return Ok(await orderService.CreateOrderFromCartAsync(UserId, request));
+            var order = await orderService.CreateOrderFromCartAsync(UserId, request);
+            await hub.Clients.All.SendAsync("NewOrder", order);
+            return Ok(order);
         }
         catch (InvalidOperationException ex)
         {

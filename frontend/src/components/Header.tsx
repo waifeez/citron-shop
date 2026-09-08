@@ -42,15 +42,15 @@ export function Header() {
             >
               Каталог
             </Button>
-            {user?.roles.includes('Admin') && (
-              <Button
-                component={RouterLink}
-                to="/admin/products"
-                sx={{ color: '#FFFFFF', fontWeight: 600, '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}
-              >
-                Админка
-              </Button>
-            )}
+           {user?.roles.includes('Admin') && (
+  <Button
+    component={RouterLink}
+    to="/admin/orders"
+    sx={{ color: '#FFFFFF', fontWeight: 600, '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}
+  >
+    Заказы
+  </Button>
+)}
           </Stack>
 
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>

@@ -21,6 +21,7 @@ import { ToastNotifications } from './components/ToastNotifications';
 import { useAppDispatch } from './store/hooks';
 import { fetchProducts } from './store/slices/productsSlice';
 import { fetchCategories } from './store/slices/categoriesSlice';
+import { AdminOrdersPage } from './pages/admin/AdminOrdersPage';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   return (
@@ -55,6 +56,7 @@ function AnimatedRoutes() {
           <Route path="/admin/products" element={<PageTransition><AdminProductsPage /></PageTransition>} />
           <Route path="/admin/products/new" element={<PageTransition><AdminProductFormPage /></PageTransition>} />
           <Route path="/admin/products/:id" element={<PageTransition><AdminProductFormPage /></PageTransition>} />
+          <Route path="/admin/orders" element={<PageTransition><AdminOrdersPage /></PageTransition>} />
         </Route>
 
         <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
