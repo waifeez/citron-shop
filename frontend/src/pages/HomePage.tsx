@@ -1,38 +1,92 @@
-import { Container, Box, Typography, Button, Grid, Stack } from '@mui/material';
+import { Container, Box, Typography, Button, Grid, Stack, Divider } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import CardGiftcardOutlinedIcon from '@mui/icons-material/CardGiftcardOutlined';
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 import { useAppSelector } from '../store/hooks';
 import { ProductCard } from '../components/ProductCard';
+import { LemonLogo } from '../components/LemonLogo';
+import { ProductSilhouettes } from '../components/ProductSilhouettes';
 
-function GiftIllustration() {
+function Hero() {
   return (
-    <Box sx={{ width: '100%', maxWidth: 380, mx: 'auto' }}>
-      <svg viewBox="0 0 260 240" width="100%" height="100%" fill="none">
-        <path d="M20 40 L240 40 L230 75 L30 75 Z" fill="#F5D800" stroke="#153726" strokeWidth="4" strokeLinejoin="round" />
-        <path d="M20 40 L74 40 L69 75 L30 75 Z" fill="#FFFFFF" stroke="#153726" strokeWidth="4" strokeLinejoin="round" />
-        <path d="M128 40 L182 40 L179 75 L131 75 Z" fill="#FFFFFF" stroke="#153726" strokeWidth="4" strokeLinejoin="round" />
+    <Box sx={{ position: 'relative', bgcolor: '#123420', overflow: 'hidden' }}>
+      <ProductSilhouettes />
 
-        <rect x="35" y="75" width="190" height="115" rx="8" fill="#FFFFFF" stroke="#153726" strokeWidth="4" />
+      <Container sx={{ position: 'relative', py: { xs: 10, md: 16 }, textAlign: 'center' }}>
+        <Stack direction="row" spacing={1} sx={{ justifyContent: 'center', mb: 2 }}>
+          <Typography sx={{ color: 'rgba(255,255,255,0.55)', fontSize: 11, letterSpacing: '0.06em' }}>
+            MOLDOVA
+          </Typography>
+          <Typography sx={{ color: 'rgba(255,255,255,0.25)' }}>|</Typography>
+          <Typography sx={{ color: 'secondary.main', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em' }}>
+            CHISINAU
+          </Typography>
+        </Stack>
 
-        <rect x="95" y="115" width="70" height="55" rx="4" fill="#F5D800" stroke="#153726" strokeWidth="4" />
-        <rect x="95" y="115" width="70" height="16" fill="#1E7A4C" stroke="#153726" strokeWidth="4" />
-        <rect x="124" y="100" width="12" height="70" fill="#1E7A4C" stroke="#153726" strokeWidth="3" />
-        <path d="M130 100c-14-10-30-6-26 6 3 8 18 6 26-6Z" fill="#1E7A4C" stroke="#153726" strokeWidth="3" />
-        <path d="M130 100c14-10 30-6 26 6-3 8-18 6-26-6Z" fill="#1E7A4C" stroke="#153726" strokeWidth="3" />
+        <Box sx={{ mb: 1.5 }}>
+          <LemonLogo size={64} />
+        </Box>
 
-        <path
-          d="M188 150 L212 190 L217 172 L235 168 Z"
-          fill="#1E7A4C"
-          stroke="#153726"
-          strokeWidth="4"
-          strokeLinejoin="round"
-        />
+        <Typography variant="h2" sx={{ color: '#fff', fontSize: { xs: 40, md: 56 }, mb: 3 }}>
+          Citron
+        </Typography>
 
-        <rect x="110" y="190" width="40" height="14" fill="#FFFFFF" stroke="#153726" strokeWidth="4" />
-        <rect x="90" y="204" width="80" height="10" rx="4" fill="#F5D800" stroke="#153726" strokeWidth="4" />
-      </svg>
+        <Stack direction="row" spacing={1.5} sx={{ justifyContent: 'center', flexWrap: 'wrap', mb: 4, rowGap: 1.5 }}>
+          <Button component={RouterLink} to="/catalog" variant="contained" color="secondary" size="large">
+            Смотреть каталог
+          </Button>
+          <Button
+            component={RouterLink}
+            to="/catalog"
+            variant="outlined"
+            size="large"
+            sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.35)', '&:hover': { borderColor: '#fff' } }}
+          >
+            Подарочные наборы
+          </Button>
+        </Stack>
+
+        <Divider sx={{ borderColor: 'rgba(255,255,255,0.13)', mb: 2.5 }} />
+
+        <Stack direction="row" spacing={4} sx={{ justifyContent: 'center', flexWrap: 'wrap', rowGap: 2 }}>
+          <Box>
+            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>Игрушки</Typography>
+            <Typography sx={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>120+ товаров</Typography>
+          </Box>
+          <Box>
+            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>Антистресс</Typography>
+            <Typography sx={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>40+ товаров</Typography>
+          </Box>
+          <Box>
+            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>Аксессуары</Typography>
+            <Typography sx={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>80+ товаров</Typography>
+          </Box>
+          <Box>
+            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>Доставка</Typography>
+            <Typography sx={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>от 500 MDL</Typography>
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
+  );
+}
+
+function FeatureBadgeIcon({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      sx={{
+        width: 52,
+        height: 52,
+        borderRadius: '50%',
+        bgcolor: 'rgba(30,122,76,0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0
+      }}
+    >
+      {children}
     </Box>
   );
 }
@@ -44,36 +98,17 @@ export function HomePage() {
 
   return (
     <Box>
-      <Container sx={{ py: { xs: 6, md: 10 } }}>
-        <Grid container spacing={6} sx={{ alignItems: 'center' }}>
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Typography variant="h2" sx={{ mb: 2, lineHeight: 1.15 }}>
-              Подарки, которые
-              <br />
-              запоминаются
-            </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ mb: 4, fontWeight: 400, maxWidth: 480 }}>
-              Игрушки, аксессуары и подарки для любого повода — с бережной упаковкой
-              и доставкой по всей Молдове.
-            </Typography>
-            <Stack direction="row" spacing={2}>
-              <Button component={RouterLink} to="/catalog" variant="contained" size="large">
-                Смотреть каталог
-              </Button>
-            </Stack>
-          </Grid>
+      <Hero />
 
-          <Grid size={{ xs: 12, md: 5 }}>
-            <GiftIllustration />
-          </Grid>
-        </Grid>
-      </Container>
+      <Box sx={{ borderTop: '3px dashed rgba(18,52,32,0.15)' }} />
 
-      <Container sx={{ pb: { xs: 6, md: 8 } }}>
+      <Container sx={{ py: { xs: 6, md: 8 } }}>
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, sm: 4 }}>
             <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <CardGiftcardOutlinedIcon color="primary" fontSize="large" />
+              <FeatureBadgeIcon>
+                <CardGiftcardOutlinedIcon color="primary" />
+              </FeatureBadgeIcon>
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Подарочная упаковка</Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -84,7 +119,9 @@ export function HomePage() {
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }}>
             <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <LocalShippingOutlinedIcon color="primary" fontSize="large" />
+              <FeatureBadgeIcon>
+                <LocalShippingOutlinedIcon color="primary" />
+              </FeatureBadgeIcon>
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Быстрая доставка</Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -95,7 +132,9 @@ export function HomePage() {
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }}>
             <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <VerifiedOutlinedIcon color="primary" fontSize="large" />
+              <FeatureBadgeIcon>
+                <VerifiedOutlinedIcon color="primary" />
+              </FeatureBadgeIcon>
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Гарантия качества</Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -107,8 +146,10 @@ export function HomePage() {
         </Grid>
       </Container>
 
+      <Box sx={{ borderTop: '3px dashed rgba(18,52,32,0.15)' }} />
+
       {featured.length > 0 && (
-        <Container sx={{ pb: { xs: 6, md: 10 } }}>
+        <Container sx={{ py: { xs: 6, md: 10 } }}>
           <Typography variant="h4" sx={{ mb: 3 }}>
             Хиты продаж
           </Typography>

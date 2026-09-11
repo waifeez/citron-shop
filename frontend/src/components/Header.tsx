@@ -4,17 +4,13 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { logout } from '../store/slices/authSlice';
+import { LemonLogo } from './LemonLogo';
 
 function Logo() {
   return (
     <Stack direction="row" spacing={1.2} sx={{ alignItems: 'center' }}>
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <ellipse cx="16" cy="17" rx="12" ry="9.5" fill="#F5D800" stroke="#153726" strokeWidth="1.6" />
-        <path d="M4 17c0-1 1-1.6 2.2-1.2 1 .4 1 2 0 2.4C5 18.6 4 18 4 17Z" fill="#F5D800" stroke="#153726" strokeWidth="1.2" />
-        <path d="M28 17c0-1-1-1.6-2.2-1.2-1 .4-1 2 0 2.4 1.2.4 2.2-.2 2.2-1.2Z" fill="#F5D800" stroke="#153726" strokeWidth="1.2" />
-        <path d="M17 8c1-3 4-4.5 6.5-3.7-1 2.3-3.6 4-6.5 3.7Z" fill="#1E7A4C" />
-      </svg>
-      <Typography variant="h6" sx={{ fontFamily: "'Fraunces', serif", fontWeight: 600, color: '#FFFFFF' }}>
+      <LemonLogo size={32} />
+      <Typography variant="h6" sx={{ fontFamily: "'Fraunces', serif", fontWeight: 700, color: '#FFFFFF' }}>
         Citron
       </Typography>
     </Stack>
@@ -23,11 +19,11 @@ function Logo() {
 
 export function Header() {
   const { user } = useAppSelector((s) => s.auth);
- const cartCount = useAppSelector((s) => s.cart.data.itemCount);
+  const cartCount = useAppSelector((s) => s.cart.data.itemCount);
   const dispatch = useAppDispatch();
 
   return (
-    <AppBar position="sticky" elevation={0} sx={{ bgcolor: 'primary.main' }}>
+    <AppBar position="sticky" elevation={0} sx={{ bgcolor: '#123420' }}>
       <Container>
         <Toolbar disableGutters sx={{ gap: 3, py: 0.5 }}>
           <Box component={RouterLink} to="/" sx={{ textDecoration: 'none' }}>
@@ -42,15 +38,24 @@ export function Header() {
             >
               Каталог
             </Button>
-           {user?.roles.includes('Admin') && (
-  <Button
-    component={RouterLink}
-    to="/admin/orders"
-    sx={{ color: '#FFFFFF', fontWeight: 600, '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}
-  >
-    Заказы
-  </Button>
-)}
+            {user?.roles.includes('Admin') && (
+              <>
+                <Button
+                  component={RouterLink}
+                  to="/admin/products"
+                  sx={{ color: '#FFFFFF', fontWeight: 600, '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}
+                >
+                  Админка
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to="/admin/orders"
+                  sx={{ color: '#FFFFFF', fontWeight: 600, '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}
+                >
+                  Заказы
+                </Button>
+              </>
+            )}
           </Stack>
 
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>

@@ -1,7 +1,8 @@
 import { createTheme } from '@mui/material/styles';
+
 export const theme = createTheme({
   palette: {
-    primary: { main: '#1E7A4C', dark: '#145C38', light: '#4FAE7C' },
+    primary: { main: '#1E7A4C', dark: '#123420', light: '#4FAE7C' },
     secondary: { main: '#F5D800', dark: '#D9BE00', light: '#FFE94D', contrastText: '#153726' },
     background: { default: '#FBFCF8', paper: '#FFFFFF' },
     text: { primary: '#16241C', secondary: '#5B6B60' }
@@ -9,8 +10,8 @@ export const theme = createTheme({
   shape: { borderRadius: 16 },
   typography: {
     fontFamily: "'Inter', 'Segoe UI', sans-serif",
-    h1: { fontFamily: "'Fraunces', serif", fontWeight: 600 },
-    h2: { fontFamily: "'Fraunces', serif", fontWeight: 600 },
+    h1: { fontFamily: "'Fraunces', serif", fontWeight: 700 },
+    h2: { fontFamily: "'Fraunces', serif", fontWeight: 700 },
     h3: { fontFamily: "'Fraunces', serif", fontWeight: 600 },
     h4: { fontFamily: "'Fraunces', serif", fontWeight: 600 },
     h5: { fontFamily: "'Fraunces', serif", fontWeight: 600 },
