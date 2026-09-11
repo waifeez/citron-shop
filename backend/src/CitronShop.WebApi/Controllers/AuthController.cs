@@ -3,11 +3,13 @@ using CitronShop.Application.Interfaces;
 using CitronShop.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace CitronShop.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[EnableRateLimiting("auth")]
 public class AuthController(UserManager<ApplicationUser> userManager, ITokenService tokenService) : ControllerBase
 {
     [HttpPost("register")]
