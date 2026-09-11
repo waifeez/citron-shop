@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CitronShop.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67755e123edfab5068b91a72f50ec4af49a3552d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efa7eb6f792b29c60555e16440837bbcf17f359a")]
 [assembly: System.Reflection.AssemblyProductAttribute("CitronShop.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CitronShop.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

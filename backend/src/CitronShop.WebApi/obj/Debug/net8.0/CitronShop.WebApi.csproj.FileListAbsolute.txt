@@ -155,3 +155,8 @@ C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\ru\Microsoft.CodeAnal
 C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\Hangfire.AspNetCore.dll
+C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\Hangfire.Core.dll
+C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\Hangfire.NetCore.dll
+C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\Hangfire.SqlServer.dll
+C:\Projects\backend\src\CitronShop.WebApi\bin\Debug\net8.0\Newtonsoft.Json.dll

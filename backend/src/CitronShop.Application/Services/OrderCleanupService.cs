@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 public class OrderCleanupService(IShopDbContext db, ILogger<OrderCleanupService> logger)
 {
-    private const int TimeoutMinutes = 30;
+    private const int TimeoutMinutes = 20;
 
     public async Task CancelExpiredOrdersAsync()
     {
