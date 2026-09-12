@@ -8,12 +8,31 @@ import { ProductCard } from '../components/ProductCard';
 import { LemonLogo } from '../components/LemonLogo';
 import { ProductSilhouettes } from '../components/ProductSilhouettes';
 
-function Hero() {
+function FeatureBadgeIcon({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      sx={{
+        width: 56,
+        height: 56,
+        borderRadius: '50%',
+        bgcolor: 'rgba(245,216,0,0.15)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+
+function HeroAndFeatures() {
   return (
     <Box sx={{ position: 'relative', bgcolor: '#123420', overflow: 'hidden' }}>
       <ProductSilhouettes />
 
-      <Container sx={{ position: 'relative', py: { xs: 10, md: 16 }, textAlign: 'center' }}>
+      <Container sx={{ position: 'relative', pt: { xs: 10, md: 16 }, pb: { xs: 8, md: 12 }, textAlign: 'center' }}>
         <Stack direction="row" spacing={1} sx={{ justifyContent: 'center', mb: 2 }}>
           <Typography sx={{ color: 'rgba(255,255,255,0.55)', fontSize: 11, letterSpacing: '0.06em' }}>
             MOLDOVA
@@ -47,9 +66,7 @@ function Hero() {
           </Button>
         </Stack>
 
-        <Divider sx={{ borderColor: 'rgba(255,255,255,0.13)', mb: 2.5 }} />
-
-        <Stack direction="row" spacing={4} sx={{ justifyContent: 'center', flexWrap: 'wrap', rowGap: 2 }}>
+        <Stack direction="row" spacing={4} sx={{ justifyContent: 'center', flexWrap: 'wrap', rowGap: 2, mb: { xs: 6, md: 9 } }}>
           <Box>
             <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>Игрушки</Typography>
             <Typography sx={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>120+ товаров</Typography>
@@ -67,26 +84,51 @@ function Hero() {
             <Typography sx={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>от 500 MDL</Typography>
           </Box>
         </Stack>
-      </Container>
-    </Box>
-  );
-}
 
-function FeatureBadgeIcon({ children }: { children: React.ReactNode }) {
-  return (
-    <Box
-      sx={{
-        width: 52,
-        height: 52,
-        borderRadius: '50%',
-        bgcolor: 'rgba(30,122,76,0.1)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0
-      }}
-    >
-      {children}
+        <Divider sx={{ borderColor: 'rgba(255,255,255,0.13)', mb: { xs: 6, md: 8 } }} />
+
+        <Grid container spacing={5}>
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <Stack spacing={2} sx={{ alignItems: 'center' }}>
+              <FeatureBadgeIcon>
+                <CardGiftcardOutlinedIcon sx={{ color: 'secondary.main' }} fontSize="large" />
+              </FeatureBadgeIcon>
+              <Box>
+                <Typography sx={{ fontWeight: 600, color: '#fff', mb: 0.5 }}>Подарочная упаковка</Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  На любой товар — бесплатно
+                </Typography>
+              </Box>
+            </Stack>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <Stack spacing={2} sx={{ alignItems: 'center' }}>
+              <FeatureBadgeIcon>
+                <LocalShippingOutlinedIcon sx={{ color: 'secondary.main' }} fontSize="large" />
+              </FeatureBadgeIcon>
+              <Box>
+                <Typography sx={{ fontWeight: 600, color: '#fff', mb: 0.5 }}>Быстрая доставка</Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  По Кишинёву — за 1 день
+                </Typography>
+              </Box>
+            </Stack>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <Stack spacing={2} sx={{ alignItems: 'center' }}>
+              <FeatureBadgeIcon>
+                <VerifiedOutlinedIcon sx={{ color: 'secondary.main' }} fontSize="large" />
+              </FeatureBadgeIcon>
+              <Box>
+                <Typography sx={{ fontWeight: 600, color: '#fff', mb: 0.5 }}>Гарантия качества</Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  Возврат в течение 14 дней
+                </Typography>
+              </Box>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 }
@@ -98,69 +140,29 @@ export function HomePage() {
 
   return (
     <Box>
-      <Hero />
-
-      <Box sx={{ borderTop: '3px dashed rgba(18,52,32,0.15)' }} />
-
-      <Container sx={{ py: { xs: 6, md: 8 } }}>
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <FeatureBadgeIcon>
-                <CardGiftcardOutlinedIcon color="primary" />
-              </FeatureBadgeIcon>
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Подарочная упаковка</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  На любой товар — бесплатно
-                </Typography>
-              </Box>
-            </Stack>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <FeatureBadgeIcon>
-                <LocalShippingOutlinedIcon color="primary" />
-              </FeatureBadgeIcon>
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Быстрая доставка</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  По Кишинёву — за 1 день
-                </Typography>
-              </Box>
-            </Stack>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <FeatureBadgeIcon>
-                <VerifiedOutlinedIcon color="primary" />
-              </FeatureBadgeIcon>
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Гарантия качества</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Возврат в течение 14 дней
-                </Typography>
-              </Box>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Container>
-
-      <Box sx={{ borderTop: '3px dashed rgba(18,52,32,0.15)' }} />
+      <HeroAndFeatures />
 
       {featured.length > 0 && (
-        <Container sx={{ py: { xs: 6, md: 10 } }}>
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            Хиты продаж
-          </Typography>
-          <Grid container spacing={3}>
-            {featured.map((product) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={product.id}>
-                <ProductCard product={product} />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
+        <>
+          <Box sx={{ borderTop: '3px dashed rgba(18,52,32,0.15)' }} />
+          <Container sx={{ py: { xs: 6, md: 10 } }}>
+            <Typography
+              sx={{ color: 'primary.main', fontWeight: 700, fontSize: 12, letterSpacing: '0.08em', mb: 1 }}
+            >
+              ВЫБОР ПОКУПАТЕЛЕЙ
+            </Typography>
+            <Typography variant="h4" sx={{ mb: 4 }}>
+              Хиты продаж
+            </Typography>
+            <Grid container spacing={3}>
+              {featured.map((product) => (
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={product.id}>
+                  <ProductCard product={product} />
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </>
       )}
     </Box>
   );

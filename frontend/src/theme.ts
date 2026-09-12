@@ -18,6 +18,11 @@ export const theme = createTheme({
     button: { textTransform: 'none', fontWeight: 600 }
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: { backgroundColor: '#123420' }
+      }
+    },
     MuiButton: {
       styleOverrides: {
         root: { borderRadius: 999, paddingLeft: 22, paddingRight: 22 }

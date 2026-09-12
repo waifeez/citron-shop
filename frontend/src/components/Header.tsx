@@ -23,7 +23,7 @@ export function Header() {
   const dispatch = useAppDispatch();
 
   return (
-    <AppBar position="sticky" elevation={0} sx={{ bgcolor: '#123420' }}>
+    <AppBar position="sticky" elevation={0} sx={{ bgcolor: '#123420', boxShadow: 'none' }}>
       <Container>
         <Toolbar disableGutters sx={{ gap: 3, py: 0.5 }}>
           <Box component={RouterLink} to="/" sx={{ textDecoration: 'none' }}>
