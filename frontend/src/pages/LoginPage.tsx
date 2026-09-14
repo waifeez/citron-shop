@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from 'react';
-import { Box, Button, Container, TextField, Typography, Alert, Link as MuiLink } from '@mui/material';
+import { Box, Button, Container, TextField, Typography, Alert, Link as MuiLink, Paper } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { setCredentials } from '../store/slices/authSlice';
 import { fetchCart } from '../store/slices/cartSlice';
 import { authApi } from '../api/authApi';
+import { LemonLogo } from '../components/LemonLogo';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -37,33 +38,43 @@ export function LoginPage() {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 8 }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        Вход
-      </Typography>
+    <Box sx={{ bgcolor: '#FBFCF8', minHeight: '70vh', display: 'flex', alignItems: 'center', py: 6 }}>
+      <Container maxWidth="xs">
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
+          <LemonLogo size={48} />
+          <Typography variant="h4" sx={{ mt: 1.5 }}>
+            С возвращением
+          </Typography>
+          <Typography color="text.secondary" sx={{ fontSize: 14 }}>
+            Войди, чтобы продолжить покупки
+          </Typography>
+        </Box>
 
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        <Paper variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
+          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <TextField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth />
-        <TextField
-          label="Пароль"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-        />
-        <Button type="submit" variant="contained" size="large" disabled={loading}>
-          {loading ? 'Входим...' : 'Войти'}
-        </Button>
+          <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <TextField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth />
+            <TextField
+              label="Пароль"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              fullWidth
+            />
+            <Button type="submit" variant="contained" size="large" disabled={loading}>
+              {loading ? 'Входим...' : 'Войти'}
+            </Button>
 
-        <Typography variant="body2" sx={{ textAlign: 'center' }}>
-          Нет аккаунта?{' '}
-          <MuiLink component={RouterLink} to="/register">
-            Зарегистрироваться
-          </MuiLink>
-        </Typography>
-      </Box>
-    </Container>
+            <Typography variant="body2" sx={{ textAlign: 'center' }}>
+              Нет аккаунта?{' '}
+              <MuiLink component={RouterLink} to="/register">
+                Зарегистрироваться
+              </MuiLink>
+            </Typography>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   );
 }
