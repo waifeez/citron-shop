@@ -41,3 +41,9 @@ public interface ITokenService
 {
     (string Token, DateTime ExpiresAt) CreateToken(string userId, string email, IList<string> roles);
 }
+public interface IWishlistService
+{
+    Task<List<WishlistItemDto>> GetAsync(string userId);
+    Task<List<WishlistItemDto>> AddAsync(string userId, Guid productId);
+    Task<List<WishlistItemDto>> RemoveAsync(string userId, Guid productId);
+}

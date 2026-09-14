@@ -10,6 +10,6 @@ public interface IShopDbContext
     DbSet<CartItem> CartItems { get; }
     DbSet<Order> Orders { get; }
     DbSet<OrderItem> OrderItems { get; }
-
+    DbSet<WishlistItem> WishlistItems { get; }
     Task<int> SaveChangesAsync(CancellationToken ct = default);
 }
