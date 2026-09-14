@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { checkout } from '../store/slices/ordersSlice';
 import { fetchCart } from '../store/slices/cartSlice';
+import { PageHeader } from '../components/PageHeader';
 
 export function CheckoutPage() {
   const cart = useAppSelector((s) => s.cart.data);
@@ -54,62 +55,65 @@ export function CheckoutPage() {
 
   if (cart.items.length === 0) {
     return (
-      <Container sx={{ py: 6, textAlign: 'center' }}>
-        <Typography variant="h5">Корзина пуста — нечего оформлять</Typography>
-      </Container>
+      <Box>
+        <PageHeader title="Оформление заказа" compact />
+        <Container sx={{ py: 6, textAlign: 'center' }}>
+          <Typography variant="h5">Корзина пуста — нечего оформлять</Typography>
+        </Container>
+      </Box>
     );
   }
 
   return (
-    <Container sx={{ py: 4, maxWidth: 600 }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        Оформление заказа
-      </Typography>
+    <Box>
+      <PageHeader title="Оформление заказа" subtitle="Ещё пара шагов — и подарок в пути" compact />
 
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Container sx={{ py: 4, maxWidth: 600 }}>
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-      <Paper variant="outlined" sx={{ borderRadius: 3, p: 3 }}>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Typography variant="h6" color="primary.main">
-            Доставка
-          </Typography>
-          <TextField label="Имя и фамилия" value={fullName} onChange={(e) => setFullName(e.target.value)} fullWidth />
-          <TextField label="Телефон" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth />
-          <TextField label="Город" value={city} onChange={(e) => setCity(e.target.value)} fullWidth />
-          <TextField label="Адрес" value={address} onChange={(e) => setAddress(e.target.value)} fullWidth />
+        <Paper variant="outlined" sx={{ borderRadius: 3, p: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Typography variant="h6" color="primary.main">
+              Доставка
+            </Typography>
+            <TextField label="Имя и фамилия" value={fullName} onChange={(e) => setFullName(e.target.value)} fullWidth />
+            <TextField label="Телефон" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth />
+            <TextField label="Город" value={city} onChange={(e) => setCity(e.target.value)} fullWidth />
+            <TextField label="Адрес" value={address} onChange={(e) => setAddress(e.target.value)} fullWidth />
 
-          <Divider sx={{ my: 1 }} />
+            <Divider sx={{ my: 1 }} />
 
-          <Typography variant="h6" color="primary.main">
-            Оплата картой
-          </Typography>
-          <TextField
-            label="Номер карты"
-            value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
-            placeholder="4242 4242 4242 4242"
-            fullWidth
-          />
-          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Typography variant="h6" color="primary.main">
+              Оплата картой
+            </Typography>
             <TextField
-              label="ММ/ГГ"
-              value={cardExpiry}
-              onChange={(e) => setCardExpiry(e.target.value)}
-              placeholder="12/28"
+              label="Номер карты"
+              value={cardNumber}
+              onChange={(e) => setCardNumber(e.target.value)}
+              placeholder="4242 4242 4242 4242"
               fullWidth
             />
-            <TextField label="CVC" value={cardCvc} onChange={(e) => setCardCvc(e.target.value)} fullWidth />
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <TextField
+                label="ММ/ГГ"
+                value={cardExpiry}
+                onChange={(e) => setCardExpiry(e.target.value)}
+                placeholder="12/28"
+                fullWidth
+              />
+              <TextField label="CVC" value={cardCvc} onChange={(e) => setCardCvc(e.target.value)} fullWidth />
+            </Box>
+
+            <Divider sx={{ my: 1 }} />
+
+            <Typography variant="h5">Итого: {cart.total} MDL</Typography>
+
+            <Button type="submit" variant="contained" color="primary" size="large" disabled={submitting}>
+              {submitting ? 'Оформляем...' : 'Оплатить и оформить заказ'}
+            </Button>
           </Box>
-
-          <Divider sx={{ my: 1 }} />
-
-          <Typography variant="h5">Итого: {cart.total} MDL</Typography>
-
-          <Button type="submit" variant="contained" color="primary" size="large" disabled={submitting}>
-            {submitting ? 'Оформляем...' : 'Оплатить и оформить заказ'}
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
+        </Paper>
+      </Container>
+    </Box>
   );
 }

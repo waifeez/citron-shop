@@ -1,7 +1,17 @@
 import { useEffect } from 'react';
-import { Container, Typography, Box, Divider, Paper, CircularProgress } from '@mui/material';
+import { Container, Typography, Box, Divider, Paper, CircularProgress, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchMyOrders } from '../store/slices/ordersSlice';
+import { PageHeader } from '../components/PageHeader';
+
+const statusColors: Record<string, 'default' | 'warning' | 'success' | 'info' | 'error'> = {
+  Pending: 'warning',
+  Paid: 'success',
+  Processing: 'info',
+  Shipped: 'info',
+  Delivered: 'success',
+  Cancelled: 'error'
+};
 
 export function ProfilePage() {
   const { user } = useAppSelector((s) => s.auth);
@@ -15,62 +25,63 @@ export function ProfilePage() {
 
   if (!user) {
     return (
-      <Container sx={{ py: 6, textAlign: 'center' }}>
-        <Typography variant="h5">Нужно войти в аккаунт</Typography>
-      </Container>
+      <Box>
+        <PageHeader title="Профиль" compact />
+        <Container sx={{ py: 6, textAlign: 'center' }}>
+          <Typography variant="h5">Нужно войти в аккаунт</Typography>
+        </Container>
+      </Box>
     );
   }
 
   return (
-    <Container sx={{ py: 4, maxWidth: 700 }}>
-      <Typography variant="h4" sx={{ mb: 1 }}>
-        {user.fullName}
-      </Typography>
-      <Typography color="text.secondary" sx={{ mb: 4 }}>
-        {user.email}
-      </Typography>
+    <Box>
+      <PageHeader title={user.fullName} subtitle={user.email} compact />
 
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        История заказов
-      </Typography>
+      <Container sx={{ py: 4, maxWidth: 700 }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          История заказов
+        </Typography>
 
-      {status === 'loading' && orders.length === 0 && <CircularProgress color="primary" />}
-      {status === 'idle' && orders.length === 0 && <Typography color="text.secondary">Заказов пока нет</Typography>}
+        {status === 'loading' && orders.length === 0 && <CircularProgress color="primary" />}
+        {status === 'idle' && orders.length === 0 && <Typography color="text.secondary">Заказов пока нет</Typography>}
 
-      {orders.map((order) => (
-        <Paper key={order.id} sx={{ p: 2, mb: 2, borderRadius: 3 }} variant="outlined">
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-            <Typography sx={{ fontWeight: 600 }}>№ {order.orderNumber}</Typography>
-            <Typography color="text.secondary">
+        {orders.map((order) => (
+          <Paper key={order.id} sx={{ p: 2, mb: 2, borderRadius: 3 }} variant="outlined">
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+              <Typography sx={{ fontWeight: 600 }}>№ {order.orderNumber}</Typography>
+              <Chip label={order.status} size="small" color={statusColors[order.status] ?? 'default'} />
+            </Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {new Date(order.createdAt).toLocaleDateString('ru-RU')}
             </Typography>
-          </Box>
 
-          <Divider sx={{ mb: 1 }} />
+            <Divider sx={{ mb: 1 }} />
 
-          {order.items.map((item, i) => (
-            <Box key={i} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="body2">
-                {item.productName} × {item.quantity}
+            {order.items.map((item, i) => (
+              <Box key={i} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant="body2">
+                  {item.productName} × {item.quantity}
+                </Typography>
+                <Typography variant="body2">{item.lineTotal} MDL</Typography>
+              </Box>
+            ))}
+
+            <Divider sx={{ my: 1 }} />
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography sx={{ fontWeight: 600 }}>Итого</Typography>
+              <Typography sx={{ fontWeight: 600 }} color="primary.main">
+                {order.totalAmount} MDL
               </Typography>
-              <Typography variant="body2">{item.lineTotal} MDL</Typography>
             </Box>
-          ))}
 
-          <Divider sx={{ my: 1 }} />
-
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography sx={{ fontWeight: 600 }}>Итого</Typography>
-            <Typography sx={{ fontWeight: 600 }} color="primary.main">
-              {order.totalAmount} MDL
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              Доставка: {order.shippingAddress}, {order.shippingCity}
             </Typography>
-          </Box>
-
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            Доставка: {order.shippingAddress}, {order.shippingCity}
-          </Typography>
-        </Paper>
-      ))}
-    </Container>
+          </Paper>
+        ))}
+      </Container>
+    </Box>
   );
 }
