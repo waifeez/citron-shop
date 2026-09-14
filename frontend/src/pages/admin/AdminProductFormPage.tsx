@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Container,
-  Typography,
   Box,
   TextField,
   Button,
@@ -12,10 +11,12 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Typography,
   type SelectChangeEvent
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createProduct, updateProduct } from '../../store/slices/productsSlice';
+import { PageHeader } from '../../components/PageHeader';
 
 export function AdminProductFormPage() {
   const { id } = useParams<{ id: string }>();
@@ -71,64 +72,64 @@ export function AdminProductFormPage() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        {existing ? 'Редактировать товар' : 'Новый товар'}
-      </Typography>
+    <Box>
+      <PageHeader title={existing ? 'Редактировать товар' : 'Новый товар'} compact />
 
-      {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
+      <Container maxWidth="sm" sx={{ py: 4 }}>
+        {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
 
-      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <TextField label="Название" value={name} onChange={(e) => setName(e.target.value)} required fullWidth />
-        <TextField
-          label="Описание"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          multiline
-          rows={3}
-          fullWidth
-        />
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField label="Название" value={name} onChange={(e) => setName(e.target.value)} required fullWidth />
+          <TextField
+            label="Описание"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            multiline
+            rows={3}
+            fullWidth
+          />
 
-        <FormControl fullWidth required>
-          <InputLabel>Категория</InputLabel>
-          <Select
-            value={categoryId}
-            label="Категория"
-            onChange={(e: SelectChangeEvent) => setCategoryId(e.target.value)}
-          >
-            {categories.map((c) => (
-              <MenuItem key={c.id} value={c.id}>
-                {c.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          <FormControl fullWidth required>
+            <InputLabel>Категория</InputLabel>
+            <Select
+              value={categoryId}
+              label="Категория"
+              onChange={(e: SelectChangeEvent) => setCategoryId(e.target.value)}
+            >
+              {categories.map((c) => (
+                <MenuItem key={c.id} value={c.id}>
+                  {c.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <TextField label="Цена (MDL)" type="number" value={price} onChange={(e) => setPrice(e.target.value)} required fullWidth />
-        <TextField
-          label="Цена со скидкой (необязательно)"
-          type="number"
-          value={discountPrice}
-          onChange={(e) => setDiscountPrice(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          label="Количество на складе"
-          type="number"
-          value={stockQuantity}
-          onChange={(e) => setStockQuantity(e.target.value)}
-          required
-          fullWidth
-        />
-        <FormControlLabel
-          control={<Switch checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} />}
-          label="Хит продаж"
-        />
+          <TextField label="Цена (MDL)" type="number" value={price} onChange={(e) => setPrice(e.target.value)} required fullWidth />
+          <TextField
+            label="Цена со скидкой (необязательно)"
+            type="number"
+            value={discountPrice}
+            onChange={(e) => setDiscountPrice(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            label="Количество на складе"
+            type="number"
+            value={stockQuantity}
+            onChange={(e) => setStockQuantity(e.target.value)}
+            required
+            fullWidth
+          />
+          <FormControlLabel
+            control={<Switch checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} />}
+            label="Хит продаж"
+          />
 
-        <Button type="submit" variant="contained" size="large" disabled={saving}>
-          {saving ? 'Сохраняем...' : existing ? 'Сохранить' : 'Добавить товар'}
-        </Button>
-      </Box>
-    </Container>
+          <Button type="submit" variant="contained" size="large" disabled={saving}>
+            {saving ? 'Сохраняем...' : existing ? 'Сохранить' : 'Добавить товар'}
+          </Button>
+        </Box>
+      </Container>
+    </Box>
   );
 }
