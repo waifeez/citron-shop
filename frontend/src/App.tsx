@@ -22,6 +22,7 @@ import { useAppDispatch } from './store/hooks';
 import { fetchProducts } from './store/slices/productsSlice';
 import { fetchCategories } from './store/slices/categoriesSlice';
 import { AdminOrdersPage } from './pages/admin/AdminOrdersPage';
+import { WishlistPage } from './pages/WishlistPage';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   return (
@@ -51,6 +52,7 @@ function AnimatedRoutes() {
         <Route path="/checkout" element={<PageTransition><CheckoutPage /></PageTransition>} />
         <Route path="/order-success" element={<PageTransition><OrderSuccessPage /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><ProfilePage /></PageTransition>} />
+        <Route path="/wishlist" element={<PageTransition><WishlistPage /></PageTransition>} />
 
         <Route element={<ProtectedRoute requireAdmin />}>
           <Route path="/admin/products" element={<PageTransition><AdminProductsPage /></PageTransition>} />

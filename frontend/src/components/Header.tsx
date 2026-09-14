@@ -2,6 +2,7 @@ import { AppBar, Toolbar, Container, Box, Typography, Button, Stack, Badge, Icon
 import { Link as RouterLink } from 'react-router-dom';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutlineOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { logout } from '../store/slices/authSlice';
 import { LemonLogo } from './LemonLogo';
@@ -87,6 +88,10 @@ export function Header() {
                 Войти
               </Button>
             )}
+
+            <IconButton component={RouterLink} to="/wishlist">
+              <FavoriteBorderIcon sx={{ color: '#FFFFFF' }} />
+            </IconButton>
 
             <IconButton component={RouterLink} to="/cart">
               <Badge badgeContent={cartCount} color="secondary">
