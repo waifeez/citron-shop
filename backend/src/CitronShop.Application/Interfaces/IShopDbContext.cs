@@ -11,5 +11,6 @@ public interface IShopDbContext
     DbSet<Order> Orders { get; }
     DbSet<OrderItem> OrderItems { get; }
     DbSet<WishlistItem> WishlistItems { get; }
+    DbSet<Review> Reviews { get; }
     Task<int> SaveChangesAsync(CancellationToken ct = default);
 }

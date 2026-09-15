@@ -47,3 +47,9 @@ public interface IWishlistService
     Task<List<WishlistItemDto>> AddAsync(string userId, Guid productId);
     Task<List<WishlistItemDto>> RemoveAsync(string userId, Guid productId);
 }
+
+public interface IReviewService
+{
+    Task<ProductReviewsSummary> GetForProductAsync(Guid productId);
+    Task<ProductReviewsSummary> AddAsync(Guid productId, string userId, string userName, CreateReviewRequest request);
+}

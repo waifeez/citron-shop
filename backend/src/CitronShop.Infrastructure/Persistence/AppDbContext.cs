@@ -16,6 +16,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<WishlistItem> WishlistItems => Set<WishlistItem>();
+    public DbSet<Review> Reviews => Set<Review>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -51,6 +52,17 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
             e.Property(i => i.UnitPriceSnapshot).HasColumnType("decimal(18,2)");
             e.HasOne(i => i.Order).WithMany(o => o.Items).HasForeignKey(i => i.OrderId);
             e.HasOne(i => i.Product).WithMany().HasForeignKey(i => i.ProductId).OnDelete(DeleteBehavior.Restrict);
+        });
+
+        builder.Entity<WishlistItem>(e =>
+        {
+            e.HasIndex(w => new { w.UserId, w.ProductId }).IsUnique();
+        });
+
+        builder.Entity<Review>(e =>
+        {
+            e.HasIndex(r => new { r.UserId, r.ProductId }).IsUnique();
+            e.HasOne(r => r.Product).WithMany().HasForeignKey(r => r.ProductId).OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
