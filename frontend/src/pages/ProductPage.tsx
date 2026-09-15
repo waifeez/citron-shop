@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addToCart } from '../store/slices/cartSlice';
 import { showToast } from '../store/slices/uiSlice';
 import { PageHeader } from '../components/PageHeader';
+import { ProductReviews } from '../components/ProductReviews';
 
 function ProductHeroArt() {
   return (
@@ -108,6 +109,8 @@ export function ProductPage() {
             </Button>
           </Box>
         </Box>
+
+        <ProductReviews productId={product.id} />
       </Container>
     </Box>
   );
